@@ -1,0 +1,3 @@
+[submodule "bayeshack-hhs-marketplace"]
+	path = bayeshack-hhs-marketplace
+	url = https://github.com/bayesimpact/bayeshack-hhs-marketplace.git
