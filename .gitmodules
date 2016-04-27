@@ -1,3 +1,6 @@
 [submodule "bayeshack-hhs-marketplace"]
 	path = bayeshack-hhs-marketplace
 	url = https://github.com/bayesimpact/bayeshack-hhs-marketplace.git
+[submodule "HHS-SemanticSearch"]
+	path = HHS-SemanticSearch
+	url = https://github.com/bayeshack2016/HHS-SemanticSearch.git
