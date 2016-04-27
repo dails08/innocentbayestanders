@@ -22,7 +22,7 @@ In the second stage, the user's interactions on the results page are all collect
 #### Backend:
 
 *Data*
-The raw data were mostly provided in a machine-readable JSON format: the ACA data, CMS data.. (ron)
+[The core data is publicly available as of late 2015 and consists of machine readable JSON files.](data/README.md)
 
 *ElasticSearch*
 The ElasticSearch cluster was created using bare metal servers from IBM's Softlayer Infrastructure-as-a-Service. The cluster consisted of 6 CentOS 7 servers with 8 GB RAM and 100 GB SSDs each connected via passwordless SSH. One server acted as the ElasticSearch master node, while the remaining 5 held the data. The ElasticSearch engine is easily adaptable to new servers by simply added new servers and server hostnames to the configurations. Though in our implementation, there data were only stored as one copy, ElasticSearch is capable of storing multiple copies of the data for disaster recovery.
