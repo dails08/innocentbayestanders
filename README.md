@@ -26,7 +26,7 @@ In the second stage, the user's interactions on the results page are all collect
 
 ACA plan types appear to be relatively homogenous within states.
 
-![EDA on ACA](master/PlanTypeDist.png "Distribution of Health Plan Types by County under Obamacare")
+![EDA on ACA](PlanTypeDist.png "Distribution of Health Plan Types by County under Obamacare")
 
 *ElasticSearch*
 The ElasticSearch cluster was created using bare metal servers from IBM's Softlayer Infrastructure-as-a-Service. The cluster consisted of 6 CentOS 7 servers with 8 GB RAM and 100 GB SSDs each connected via passwordless SSH. One server acted as the ElasticSearch master node, while the remaining 5 held the data. The ElasticSearch engine is easily adaptable to new servers by simply added new servers and server hostnames to the configurations. Though in our implementation, there data were only stored as one copy, ElasticSearch is capable of storing multiple copies of the data for disaster recovery.
