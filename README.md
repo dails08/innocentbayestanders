@@ -6,18 +6,18 @@
 - Date: April 26, 2016
 
 ### Abstract
-We aimed to connect people with the health care plan that best serves their needs. Current recommenders such as `healthcare.gov` and StrideHealth are a skin on top of the complicated mess that is health plan data. Users are shown options that match their basic demographic and medical history. Close to nothing is done to communicate the details of the plan in understandable layman's terms or why a plan is selected for that user. To go a step further, we’re building a faceted search engine that learns. Think Google + Amazon; PageRank + Facets. Powered by combined healthcare data, third party reviews from sources like Yelp and other sources users are able to search more simply yet more completely than ever before.  As the search engine grows in popularity, so will the matching ability of the results. Each pause and click on the website is captured and fed to a Learn to Rank algorithm.  We are taking health care to a new level that brings the users closer to finding the healthcare they need.
+We aimed to connect people with the health care plan that best serves their needs. Current recommenders such as `healthcare.gov` and StrideHealth are a skin on top of the complicated mess that is health plan data. Users are shown options that match their basic demographic and financial status. Their medical history is boiled down to a list of terms. Close to nothing is done to communicate the details of the plan in understandable layman's terms or why a plan is selected for that user. To go a step further, we’re building a faceted search engine that learns. Think Google + Amazon; PageRank + Facets. Powered by combined healthcare data, third party reviews from sources like Yelp and other sources, users are able to search more simply yet more completely than ever before.  As the search engine grows in popularity, so will the matching ability of the results. Each pause and click on the website is captured and fed to a Learn to Rank (LETOR) algorithm.  We are taking health care to a new level that brings the users closer to finding the healthcare they need.
 
 ### Problem
- The ACA insurance marketplace has been problematic for consumers since its inception. It is difficult to choose a suitable ACA plan, as it is not possible to view multiple plans together. Providers are not always in network. Plans are simply a filter on the existing data, and not matched to patients' needs. We propose adapting the lessons from consumer web giants, Google and Amazon, to the insurance marketplace.
+ The ACA insurance marketplace has been problematic for consumers since its inception. It is difficult to choose a suitable ACA plan or compare features among plans. Providers are not always in network. Recommendations are simply a filter on insurance company data, and not matched to patients' needs. We propose adapting the lessons from consumer web giants, Google and Amazon, to the insurance marketplace.
 
 ### End-to-End Solution
 
 #### Overview:
 
-The system consists of a web application with two stages. In the first stage, we ask the user a series of questions about their demographics, their preferences for certain particular providers, and a subset of their existing medical conditions. Additionally, we provide a free-form text box for users to enter key words--for example, "acupuncture", "alternative medicine", "oncology"--which will be loosely matched to descriptions tied to each plan. Each ACA plan contains information about their providers, network coverage, drugs, and third-party resources such as Yelp and Vitals.com. The highest-ranked plan is returned to the user in a results page. The user have access to a series of filters that narrow down various plans, and they can select one that best fits their needs.
+The system consists of a web application with two stages. In the first stage, we ask the user a series of questions about their demographics, their preferences for certain particular providers, and a subset of their existing medical conditions. Additionally, we provide a free-form text box for users to enter key words--for example, "acupuncture", "alternative medicine", "oncology"--which will be matched to descriptions tied to each plan. Each ACA plan contains information about their providers, network coverage, and drugs. We will add features such as physician rankings from third-party resources such as Yelp and Vitals.com. The highest-ranked plan is returned to the user in a results page. Users have access to a series of filters that narrow down various plans, and they can select one that best fits their needs.
 
-In the second stage, the user's interactions on the results page are all collected via a clickstream collector. Over time, user click behavior statistics such as dwell times, mean reciprocal rank (MRR), detail expansions are collected, stored, and processed into training data for our learn-to-rank (LETOR) algorithm. The LETOR algorithm is the key differentiator between our framework and existing frameworks: the system gets smarters as more users interact with it.
+In the second stage, the user's interactions on the results page are all collected via a clickstream collector. Over time, user click behavior statistics such as dwell times, mean reciprocal rank (MRR), and detail expansions are collected, stored, and processed into training data for our learn-to-rank (LETOR) algorithm. The LETOR algorithm is the key differentiator between our framework and existing frameworks: the system gets smarter as more users interact with it.
 
 #### Backend:
 
@@ -52,8 +52,12 @@ Any classifier can be used to predict the probabiliy of a link click. Logistic r
 The plan is to open-source the architecture of this end-to-end healthcare recommendation engine so that others can built on it. While there could be issues regarding certain bad actors trying to manipulate the system, we think the semantic search engine is a worthwhile improvement over the existing system.
 
 ### Future Work
+*Feature Enrichment*
+Current online provider rankings might not be as targeted or useful as we'd like, and might not differentiate plans. With time, our feature set can improve. As people enter free-form information, a rich set of user-generated features emerges that is naturally bundled with demographic information. 
 *ASR*  
-ASR (automatic speech recognition) can be used to aid input from the user. The target demographic for ACA often only has one computing device (smartphone). ASR allows queries to be more easily and enables the best user experience.
+ASR (automatic speech recognition) can be used to aid input from the user. The target demographic for ACA often only has one computing device (smartphone). ASR allows queries to be more easily personalized and enables the best user experience. ASR unlocks a further potential to enrich the model feature set by capturing both key terms and nuance of expression - user sentiment. 
+
+An interesting side experiment would be whether the presence of a voice chatbox encourages users to bring more information to the query process itself, and/or be more invested in the results, simply by engaging via voice rather than a form. 
 
 
 
