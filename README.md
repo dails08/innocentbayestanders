@@ -3,7 +3,7 @@
 - Team: Innocent Bayestanders
 - Members: Ron Cordell, Konniam Chan, Chris Dailey, Marjorie Sayer, Safyre Anderson
 - Mentors: Jimi Shanahan, David Portnoy
-- Date: April 26, 2016
+- Date: April 28, 2016
 
 ### Abstract
 We aimed to connect people with the health care plan that best serves their needs. Current recommenders such as `healthcare.gov` and StrideHealth are a skin on top of the complicated mess that is health plan data. Users are shown options that match their basic demographic and financial status. Their medical history is boiled down to a list of terms. Close to nothing is done to communicate the details of the plan in understandable layman's terms or why a plan is selected for that user. To go a step further, we’re building a faceted search engine that learns. Think Google + Amazon; PageRank + Facets. Powered by combined healthcare data, third party reviews from sources like Yelp and other sources, users are able to search more simply yet more completely than ever before.  As the search engine grows in popularity, so will the matching ability of the results. Each pause and click on the website is captured and fed to a Learn to Rank (LETOR) algorithm.  We are taking health care to a new level that brings the users closer to finding the healthcare they need.
@@ -48,15 +48,24 @@ Any classifier can be used to predict the probabiliy of a link click. Logistic r
 *Web Framework and UI*  
 [Flask](http://flask.pocoo.org), a python web framework based on Werkzeug and Jinja 2, was used in this application. Flask is a lightweight framework, with a plethora of extensions that allow for application features such as form validation, object-relational mappers, and programmatic rendering of HTML. The UI is a barebones setup currently with some [Bootstrap](http://getbootstrap.com) elements. It is straightforward to expand on the design and make it more user-friendly.
 
-### Open source
+### Privacy
+In order to provide a personalized set of plans for our users, inevitably we need to collect demographics and location data. While any one field does not identify the record (unless it is a *direct identifier*&mdash;name, address, ssn, etc), the combination of the *quasi-identifiers* (e.g. zipcodes, gender) could very well do. Because it is a lot more work to handle PII, our best course of action would be to ensure that any record we save is deidentified. We can accomplish this by not collecting any direct identifier, and applying the below techniques to quasi-identifiers:
+
+- *Generalization*. The feature is made less precise. For example, collect the user's age (say 50), but bin it during collection (say 45-60 bucket).  
+- *Suppression*. Certain values of data are removed. This could mean the entire record, or part of a record.  
+
+A privacy policy should be in place, to explain what data the system is collecting, what the data are used for, and how long they are kept in the database.
+
+### Open Source
 The plan is to open-source the architecture of this end-to-end healthcare recommendation engine so that others can built on it. While there could be issues regarding certain bad actors trying to manipulate the system, we think the semantic search engine is a worthwhile improvement over the existing system.
 
 ### Future Work
-*Feature Enrichment*
-Current online provider rankings might not be as targeted or useful as we'd like, and might not differentiate plans. With time, our feature set can improve. As people enter free-form information, a rich set of user-generated features emerges that is naturally bundled with demographic information. 
-*ASR*  
-ASR (automatic speech recognition) can be used to aid input from the user. The target demographic for ACA often only has one computing device (smartphone). ASR allows queries to be more easily personalized and enables the best user experience. ASR unlocks a further potential to enrich the model feature set by capturing both key terms and nuance of expression - user sentiment. 
-
+*Feature Enrichment*  
+Current online provider rankings might not be as targeted or useful as we'd like, and might not differentiate plans. With time, our feature set can improve. As people enter free-form information, a rich set of user-generated features emerges that is naturally bundled with demographic information.   
+  
+*ASR*    
+ASR (automatic speech recognition) can be used to aid input from the user. The target demographic for ACA often only has one computing device (smartphone). ASR allows queries to be more easily personalized and enables the best user experience. ASR unlocks a further potential to enrich the model feature set by capturing both key terms and nuance of expression - user sentiment.   
+  
 An interesting side experiment would be whether the presence of a voice chatbox encourages users to bring more information to the query process itself, and/or be more invested in the results, simply by engaging via voice rather than a form. 
 
 
