@@ -21,20 +21,20 @@ In the second stage, the user's interactions on the results page are all collect
 
 #### Backend:
 
-*Data*
+##### Data
 [The core data is publicly available as of late 2015 and consists of machine readable JSON files.](data/README.md)
 
 ACA plan types appear to be relatively homogenous within states.
 
 ![EDA on ACA](PlanTypeDist.png "Distribution of Health Plan Types by County under Obamacare")
 
-*ElasticSearch*
+##### ElasticSearch
 The ElasticSearch cluster was created using bare metal servers from IBM's Softlayer Infrastructure-as-a-Service. The cluster consisted of 6 CentOS 7 servers with 8 GB RAM and 100 GB SSDs each connected via passwordless SSH. One server acted as the ElasticSearch master node, while the remaining 5 held the data. The ElasticSearch engine is easily adaptable to new servers by simply added new servers and server hostnames to the configurations. Though in our implementation, there data were only stored as one copy, ElasticSearch is capable of storing multiple copies of the data for disaster recovery.
 
-*ClickStream Data and Machine Learning*
+##### ClickStream Data and Machine Learning
 Clickstream data is captured with [snowplow](https://github.com/snowplow/snowplow). User-interaction events, such as actions to expand plan descriptions and clicks to provider websites are captured in this platform, and forwarded to a S3 bucket for storage. Users' response to the survey questions and the plan details can be captured in the same S3 bucket as well.
 
-Once all the data have come through the system, we can use machine learning to rank suitability of plans. A sample table (with logs processed and joined), might look like the following:  
+Once all the data has come through the system, we can use machine learning to rank suitability of plans. A sample table (with logs processed and joined), might look like the following:  
   
 | Age | Gender | Existing Medical Condition | Plan Premium | Co-Pay | HMO/PPO | Click Plan Link (y/n) |
 |-----|--------|----------------------------|--------------|--------|---------|-----------------------|
@@ -42,7 +42,7 @@ Once all the data have come through the system, we can use machine learning to r
 | 50  | F      | Type II Diabetes           | 150          | 20     | HMO     | 0                     |
 | 50  | F      | Type II Diabetes           | 200          | 0      | PPO     | 0                     |
 
-Any classifier can be used to predict the probabiliy of a link click. Logistic regression would be great starting point for a baseline model. More sophiticated algorithms like random forest could be used as well. As clickstream accumulate beyond a few GB's, we can use Spark to handle the computations. The ML model can be recomputed daily, and fed back into the ElasticSearch cluster to aid the ranking efforts in the web app.
+Any classifier can be used to predict the probabiliy of a link click. Logistic regression would be a great starting point for a baseline model. More sophisticated algorithms like random forest could be used as well. As clickstream data accumulates beyond a few GB's, we can use Spark to handle the computations. The ML model can be recomputed daily, and fed back into the ElasticSearch cluster to aid the ranking efforts in the web app.
 
 #### Frontend
 *Web Framework and UI*  
