@@ -36,9 +36,14 @@ The ElasticSearch cluster was created using bare metal servers from IBM's Softla
 ##### ClickStream Data and Machine Learning
 Clickstream data is captured with [snowplow](https://github.com/snowplow/snowplow). User-interaction events, such as actions to expand plan descriptions and clicks to provider websites are captured in this platform, and forwarded to a S3 bucket for storage. Users' response to the survey questions and the plan details can be captured in the same S3 bucket as well.
 
-With the present data, plan ranking is done by rules and simple query intersection. Data types are categorial or ranges (such as smoker Yes/No, income range). To reach our goal of semantic search, our system must learn to incorporate semantic features. This is a [Learning To Rank](http://research.microsoft.com/en-us/people/taoqin/letor3.pdf) (LETOR) problem. A major initial challenge of a LETOR problem is obtaining training data, both features and labels. For supervised learning, we need rankings of plans, given semantic search features. 
+With the present data, plan ranking is rule based. Data types are categorial or ranges (such as smoker Yes/No, income range). To reach our goal of semantic search, our system must learn to incorporate semantic features. This is a [Learning To Rank](http://research.microsoft.com/en-us/people/taoqin/letor3.pdf) (LETOR) problem. Our plan is to use a bootstrap approach of model refinement: 
 
-These rankings are derived from clickstream data. Once enough data has come through the system, we can use machine learning to rank suitability of plans. 
+- start with initial rankings based on rules and ACA data
+- extend the feature set using free-form data input from users
+- extend rankings with clickstream data
+- use the resulting labeled dataset for supervised learning
+
+Once enough data has come through the system, we can use machine learning to rank suitability of plans. 
 
 For example: suppose the existing model using traditional data works as follows:
 
@@ -54,7 +59,7 @@ The existing system would generate the following ranking:
 |-------|-------|-------|
 | 0.76  |0.54   | 0.37  |
 
-However, using additional query terms from our free-from entry, we would present: 
+However, using additional query terms from our free-from entry ("oh, I'd love to try acupuncture like my cousin Bradford"), we would present: 
 
 |Plan A | Plan B| Plan C| Plan D    | Plan E              |
 |-------|-------|-------|-----------|---------------------|
@@ -66,17 +71,20 @@ This would in turn generate dwell time and click data for Plans A, B, C, D, and 
 |-----|--------|----------------------------|--------------|--------|---------|-------------|-----------------------|
 | 50  | F      | Type II Diabetes           | 100          | 20     | HMO     | yes         | yes                   |
 
+Note that care must be taken in the selection of additional features to present. As [Shanahan and Kurra](https://pdfs.semanticscholar.org/e6b7/c15bba47ec33771eda5e22c747a8a093b9b5.pdf) describe, bias can creep into keyword display. This would be an active area of model refinement and bootstrapping. 
 
 A sample table (with logs processed and joined), might look like the following:  
   
 | Age | Gender | Existing Medical Condition | Plan Premium | Co-Pay | HMO/PPO | Acupuncture| Pain Management| Click Plan E |
 |-----|--------|----------------------------|--------------|--------|---------|------------|----------------|--------------|
 | 50  | F      | Type II Diabetes           | 100          | 20     | HMO     | yes        | yes            | 1            |
-| 50  | F      | Type II Diabetes           | 150          | 20     | HMO     | no         | yes            | 0            |
+| 50  | F      | Gall Bladder Pain          | 150          | 20     | HMO     | no         | yes            | 0            |
 | 50  | F      | Type II Diabetes           | 200          | 0      | PPO     | maybe      | yes            | 1            |
 
 
 A variety of classifiers can be used to predict the probability of a click to a given plan. Logistic regression would be a great starting point for a baseline model. More sophisticated algorithms such as random forests could be used as well. As clickstream data accumulates beyond a few GB's, we can use Spark to handle the computations. The ML model can be recomputed daily, and fed back into the ElasticSearch cluster to aid the ranking efforts in the web app.
+
+The system is flexible enough to extend to more explorations of faceted search, using [Reinforcement Learning](https://en.wikipedia.org/wiki/Reinforcement_learning) and multi-armed bandit approaches. 
 
 #### Frontend
 *Web Framework and UI*  
