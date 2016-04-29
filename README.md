@@ -19,6 +19,8 @@ The system consists of a web application with two stages. In the first stage, we
 
 In the second stage, the user's interactions on the results page are all collected via a clickstream collector. Over time, user click behavior statistics such as dwell times, mean reciprocal rank (MRR), and detail expansions are collected, stored, and processed into training data for our learn-to-rank (LETOR) algorithm. The LETOR algorithm is the key differentiator between our framework and existing frameworks: the system gets smarter as more users interact with it.
 
+![Overview](overview.png "Main Components")
+
 #### Backend:
 
 ##### Data
