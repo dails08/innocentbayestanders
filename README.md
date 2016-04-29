@@ -42,6 +42,7 @@ With the present data, plan ranking is rule based. Data types are categorial or 
 - extend the feature set using free-form data input from users
 - extend rankings with clickstream data
 - use the resulting labeled dataset for supervised learning
+- as this is a dynamic problem, explore semi-supervised and unsupervised approaches
 
 Once enough data has come through the system, we can use machine learning to rank suitability of plans. 
 
